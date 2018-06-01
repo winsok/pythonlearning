@@ -16,20 +16,20 @@ class addgrouptest(unittest.TestCase):
         self.wd.implicitly_wait(60)
     
     def test_addgrouptest(self):
-        wd = self.wd
-        self.open_homepage(wd)
-        self.login(wd, username="admin", password="secret")
-        self.create_group(wd, Group(name="dadad", header="adada", footer="adda"))
-        self.open_groups_page(wd)
-        self.logout(wd)
+        self.login(username="admin", password="secret")
+        self.create_group(Group(name="dadad", header="adada", footer="adda"))
+        self.logout()
 
-    def logout(self, wd):
+    def logout(self):
+        wd = self.wd
         wd.find_element_by_link_text("Logout").click()
 
-    def open_groups_page(self, wd):
+    def open_groups_page(self):
+        wd = self.wd
         wd.find_element_by_link_text("groups").click()
 
-    def create_group(self, wd, group):
+    def create_group(self, group):
+        wd = self.wd
         # open group page
         wd.find_element_by_link_text("groups").click()
         # start group creation
@@ -46,8 +46,11 @@ class addgrouptest(unittest.TestCase):
         wd.find_element_by_name("group_footer").send_keys(group.footer)
         # submit group creation
         wd.find_element_by_name("submit").click()
+        self.open_groups_page()
 
-    def login(self, wd, username, password):
+    def login(self, username, password):
+        wd = self.wd
+        self.open_homepage()
         wd.find_element_by_name("user").click()
         wd.find_element_by_name("user").clear()
         wd.find_element_by_name("user").send_keys(username)
@@ -56,16 +59,14 @@ class addgrouptest(unittest.TestCase):
         wd.find_element_by_name("pass").send_keys(password)
         wd.find_element_by_xpath("//form[@id='LoginForm']/input[3]").click()
 
-    def open_homepage(self, wd):
+    def open_homepage(self):
+        wd = self.wd
         wd.get("http://localhost/addressbook/index.php")
 
     def test2_addgrouptest(self):
-        wd = self.wd
-        self.open_homepage(wd)
-        self.login(wd, username="admin", password="secret")
-        self.create_group(wd, Group(name="Lol", header="chto", footer="qwerty"))
-        self.open_groups_page(wd)
-        self.logout(wd)
+        self.login(username="admin", password="secret")
+        self.create_group(Group(name="Lol", header="chto", footer="qwerty"))
+        self.logout()
 
     def tearDown(self):
         self.wd.quit()
