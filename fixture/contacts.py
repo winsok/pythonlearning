@@ -48,6 +48,8 @@ class ContactsHelper:
         self.select_first_contact()
         wd.find_element_by_css_selector("input[value=Delete]").click()
         wd.switch_to_alert().accept()
+        self.app.open_homepage()
+
 
     def edit_first_contact(self, new_contact_data):
         wd = self.app.wd
@@ -75,7 +77,7 @@ class ContactsHelper:
         contacts = []
         for element in wd.find_elements_by_name("entry"):
             text = element.text
-            id = element.find_element_by_name("selected[]").get_attribute("value")
+            id = element.find_element_by_tag_name("td").get_attribute("value")
             contacts.append(Contact(firstname=text, id=id))
         return contacts
 
