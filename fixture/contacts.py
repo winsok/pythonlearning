@@ -1,4 +1,4 @@
-
+from model.contact import Contact
 
 class ContactsHelper:
 
@@ -29,7 +29,7 @@ class ContactsHelper:
         self.change_field_value("email2", contact.email2)
         self.change_field_value("email3", contact.email3)
         self.change_field_value("homepage", contact.homepage)
-        self.change_field_value("byyear", contact.byear)
+        self.change_field_value("byear", contact.byear)
         self.change_field_value("ayear", contact.ayear)
         self.change_field_value("address2", contact.address2)
         self.change_field_value("phone2", contact.phone2)
@@ -70,5 +70,12 @@ class ContactsHelper:
         self.app.open_homepage()
         return len(wd.find_elements_by_name("selected[]"))
 
-
+    def get_contact_list(self):
+        wd = self.app.wd
+        contacts = []
+        for element in wd.find_elements_by_name("entry"):
+            text = element.text
+            id = element.find_element_by_name("selected[]").get_attribute("value")
+            contacts.append(Contact(firstname=text, id=id))
+        return contacts
 
