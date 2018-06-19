@@ -44,12 +44,17 @@ class ContactsHelper:
             wd.find_element_by_name(field_name).send_keys(text)
 
     def delete_last_contact(self):
+        delete_contact_by_index(0)
+
+
+    def delete_contact_by_index(self, index):
         wd = self.app.wd
         self.app.open_homepage()
-        self.select_first_contact()
+        self.select_contact_by_index(index)
         wd.find_element_by_css_selector("input[value=Delete]").click()
         wd.switch_to_alert().accept()
         self.app.open_homepage()
+        self.contacts_cache = None
 
 
     def edit_first_contact(self, new_contact_data):
@@ -67,6 +72,10 @@ class ContactsHelper:
     def select_first_contact(self):
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
+
+    def select_contact_by_index(self, index):
+        wd = self.app.wd
+        wd.find_elements_by_name("selected[]")[index].click()
 
     def count(self):
         wd = self.app.wd
