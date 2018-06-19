@@ -15,8 +15,8 @@ class ContactsHelper:
     def fill_contact_data(self, contact):
         wd = self.app.wd
         self.change_field_value("firstname", contact.firstname)
-        self.change_field_value("middlename", contact.middlename)
         self.change_field_value("lastname", contact.lastname)
+        self.change_field_value("middlename", contact.middlename)
         self.change_field_value("nickname", contact.nickname)
         self.change_field_value("title", contact.title)
         self.change_field_value("company", contact.company)
@@ -67,18 +67,22 @@ class ContactsHelper:
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
 
-    def contacts_count(self):
+    def count(self):
         wd = self.app.wd
         self.app.open_homepage()
         return len(wd.find_elements_by_name("selected[]"))
 
+    contacts_cache = None
+
     def get_contact_list(self):
-        wd = self.app.wd
-        contacts = []
-        for element in wd.find_elements_by_name("entry"):
-            last_name = element.find_element_by_xpath(".//td[2]").text
-            first_name = element.find_element_by_xpath(".//td[3]").text
-            id = element.find_element_by_name("selected[]").get_attribute("value")
-            contacts.append(Contact(lastname=last_name, firstname=first_name, id=id))
-        return contacts
+        if self.contacts_cache is None:
+            wd = self.app.wd
+            self.contacts_cache = []
+            self.app.open_homepage()
+            for element in wd.find_elements_by_name("entry"):
+                lastname = element.find_element_by_xpath(".//td[2]").text
+                firstname = element.find_element_by_xpath(".//td[3]").text
+                id = element.find_element_by_name("selected[]").get_attribute("value")
+                self.contacts_cache.append(Contact(lastname=lastname, firstname=firstname, id=id))
+        return list(self.contacts_cache)
 
