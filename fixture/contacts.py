@@ -11,6 +11,7 @@ class ContactsHelper:
         self.fill_contact_data(contact)
         wd.find_element_by_xpath("//div[@id='content']/form/input[21]").click()
         self.app.open_homepage()
+        self.contacts_cache = None
 
     def fill_contact_data(self, contact):
         wd = self.app.wd
