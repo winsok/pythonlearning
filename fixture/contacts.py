@@ -1,5 +1,4 @@
 from model.contact import Contact
-from random import randint
 import re
 
 class ContactsHelper:
