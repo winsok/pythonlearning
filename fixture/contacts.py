@@ -1,6 +1,7 @@
 from model.contact import Contact
 import re
 
+
 class ContactsHelper:
 
     def __init__(self, app):
