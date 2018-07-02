@@ -5,7 +5,7 @@ from fixture.contacts import ContactsHelper
 
 class Application:
 
-    def __init__(self, browser="firefox"):
+    def __init__(self, browser, base_url):
         if browser == "firefox":
             self.wd = webdriver.Firefox()
         elif browser == "chrome":
@@ -17,6 +17,7 @@ class Application:
         self.session = SessionHelper(self)
         self.groups = GroupsHelper(self)
         self.contacts = ContactsHelper(self)
+        self.base_url = base_url
 
     def is_valid(self):
         try:
@@ -27,7 +28,7 @@ class Application:
 
     def open_homepage(self):
         wd = self.wd
-        wd.get("http://localhost/addressbook/index.php")
+        wd.get(self.base_url)
 
     def destroy(self):
         self.wd.quit()
