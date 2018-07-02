@@ -10,7 +10,7 @@ class Application:
             self.wd = webdriver.Firefox()
         elif browser == "chrome":
             self.wd = webdriver.Chrome()
-        elif browser == "Safari":
+        elif browser == "safari":
             self.wd = webdriver.Safari()
         else:
             raise ValueError("Unrecognized browser %s" % browser)
