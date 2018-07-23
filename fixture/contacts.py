@@ -59,6 +59,15 @@ class ContactsHelper:
         self.app.open_homepage()
         self.contacts_cache = None
 
+    def delete_contact_by_id(self, id):
+        wd = self.app.wd
+        self.app.open_homepage()
+        self.select_contact_by_id(id)
+        wd.find_element_by_css_selector("input[value=Delete]").click()
+        wd.switch_to_alert().accept()
+        self.app.open_homepage()
+        self.contacts_cache = None
+
     def edit_first_contact(self):
         self.edit_contact_by_index(0)
 
@@ -71,6 +80,15 @@ class ContactsHelper:
         self.app.open_homepage()
         self.contacts_cache = None
 
+    def edit_contact_by_id(self, id, new_contact_data):
+        wd = self.app.wd
+        self.app.open_homepage()
+        self.select_contact_by_id(id)
+        self.fill_contact_data(new_contact_data)
+        wd.find_element_by_name("update").click()
+        self.app.open_homepage()
+        self.contacts_cache = None
+
     def select_first_contact(self):
         wd = self.app.wd
         wd.find_element_by_name("selected[]").click()
@@ -78,6 +96,10 @@ class ContactsHelper:
     def select_contact_by_index(self, index):
         wd = self.app.wd
         wd.find_elements_by_css_selector("img[title=Edit]")[index].click()
+
+    def select_contact_by_id(self, id):
+        wd = self.app.wd
+        wd.find_element_by_css_selector("input[value='%s']" % id).click()
 
 
     def count(self):

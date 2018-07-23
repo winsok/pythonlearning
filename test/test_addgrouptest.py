@@ -2,12 +2,11 @@
 from model.group import Group
 
 
-def test_addgrouptest(app, json_groups):
+def test_addgrouptest(app, db, json_groups):
     group = json_groups
-    old_groups = app.groups.get_group_list()
+    old_groups = db.get_grouplist()
     app.groups.create_group(group)
-    assert len(old_groups) + 1 == app.groups.count()
-    new_groups = app.groups.get_group_list()
+    new_groups = db.get_grouplist()
     old_groups.append(group)
     assert sorted(old_groups, key=Group.id_or_max) == sorted(new_groups, key=Group.id_or_max)
 
