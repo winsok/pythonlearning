@@ -8,10 +8,10 @@ def test_edit_some_contact_firstname(app, db, check_ui):
     old_contacts = db.get_contact_list()
     contact = random.choice(old_contacts)
     contact_data = Contact(firstname="helloman")
-    contact_data.id = contact.id
     app.contacts.edit_contact_by_id(contact.id, contact_data)
     old_contacts.remove(contact)
     new_contacts = db.get_contact_list()
+    contact_data.id = contact.id
     old_contacts.append(contact_data)
     assert sorted(old_contacts, key=Contact.id_or_max) == sorted(new_contacts, key=Contact.id_or_max)
     if check_ui:

@@ -83,7 +83,7 @@ class ContactsHelper:
     def edit_contact_by_id(self, id, new_contact_data):
         wd = self.app.wd
         self.app.open_homepage()
-        self.select_contact_by_id(id)
+        wd.find_element_by_xpath("//a[contains(@href, %s) and contains(@href, 'edit.php?id=')]" % id).click()
         self.fill_contact_data(new_contact_data)
         wd.find_element_by_name("update").click()
         self.app.open_homepage()
